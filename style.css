@@ -1,7 +1,31 @@
 
+body {
+    background-color: #110472;
+    background-image: url("./bg-dotted.png");
+    background-repeat: repeat-x;
+}
 
-div#entries {
+div#wrapper {
+    background-color: white;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+    border: 5px gray solid;
+}
+
+div#userInput {
+    font-size: 1.4em;
+}
+
+input#latex-query, input#latex-subquery {
+    border: 1px gray solid;
+    border-top-color: white;
+    border-left-color: white;
+    padding: 0.2em;
+    font-size: 1.2em;
+    width: 30%;
+}
+
+div#entries {
+    padding: 2em;
 }
