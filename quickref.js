@@ -4,7 +4,11 @@ var last_subquery = "";
 
 function match_entry(entry, query){
     // mock-up
-    if (entry.innerHTML.indexOf(query) < 0){
+    if (query == ""){
+        return true;
+    }
+    
+    if (entry.textContent.indexOf(query) < 0){
         return false;
     }
 
@@ -39,8 +43,7 @@ function do_search(){
     var query = $('input#latex-query')[0].value;
     var subquery = $('input#latex-subquery')[0].value;
 
-    if (query.length < 2 ||
-        (query == last_query && subquery == last_subquery)){
+    if (query == last_query && subquery == last_subquery){
         return;
     }
 
