@@ -2,41 +2,12 @@
 var last_query = "";
 var last_subquery = "";
 
-function match_entry(entry, query){
-    // mock-up
-    if (query == ""){
-        return true;
+function switch_loading(arg){
+    if (arg){
+        $('#loading')[0].style.display = "inline";
+    }else{
+        $('#loading')[0].style.display = "none";
     }
-    
-    if (entry.textContent.indexOf(query) < 0){
-        return false;
-    }
-
-    return true;
-}
-
-function grep_entry(entries, query){
-    for(var i = 0;i < entries.length;i++){
-        var entry = entries[i];
-        if(match_entry(entry, query)){
-            entry.style.display = "block";
-        } else {
-            entry.style.display = "none";
-        }
-    }
-}
-
-function search(query, subquery){
-    entries = $("div#entries > div.entry");
-    grep_entry(entries, query);
-    for(var i = 0;i < entries.length;i++){
-        subsearch(entries[i], subquery);
-    }
-}
-
-function subsearch(parent, subquery){
-    subentries = $("div.subentries > div.subentry", parent);
-    grep_entry(subentries, subquery);
 }
 
 function do_search(){
@@ -50,7 +21,28 @@ function do_search(){
     last_query = query;
     last_subquery = subquery;
 
-    search(query, subquery);
+    query = encodeURIComponent(query);
+    subquery = encodeURIComponent(subquery);
+
+    switch_loading(true);
+    $('#entries').load("./engine.rb",
+                       {"mode": "search", "query": query, "subquery": subquery},
+                       function(){
+                           switch_loading(false);
+                       });
 }
 
-
+function watchChange(elem, interval, func){
+    var last_val = elem.value;
+    var timer = setInterval(function()
+                            {
+                                if (last_val != elem.value){
+                                    last_val = elem.value;
+                                    func(elem);
+                                }
+                            }, interval);
+    if (elem["quick_watch_change"]){
+        clearInterval(elem["quick_watch_change"]["timer"]);
+    }
+    elem["quick_watch_change"] = {"timer": timer};
+}
