@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 $KCODE='u'
 
+ENV['GEM_PATH'] = "/home/haya/.gem/ruby/1.8"
+
 require 'cgi'
 require 'rubygems'
 require 'nokogiri'
@@ -78,8 +80,8 @@ end
 
 class SearchAction < ResponseAction
   def publish(params)
-    @query = Query.new(params['query'][0])
-    @subquery = Query.new(params['subquery'][0])
+    @query = Query.new(params['query'] && params['query'][0])
+    @subquery = Query.new(params['subquery'] && params['subquery'][0])
     sleep 1
     self.entry_files.map{|e| self.filter_entry(e)}.select{|d| d}.join("\n")
   end
