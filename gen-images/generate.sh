@@ -6,34 +6,63 @@ function tex_file_basename(){
 
 function make_tex_file(){
     basename=$1
-    texstring=$2
-    
-    echo "${texstring}" | ruby -e 'puts File.open("./template.tex","r").read.gsub(/%%%%%%%%/, $stdin.read)' > ${basename}.tex
+    ruby -e 'puts File.open("./template.tex","r").read.gsub(/%%%%%%%%/, $stdin.read)' > ${basename}.tex
 }
 
 function make_img(){
-    if [ $# -lt 2 ]; then
-	echo "Error: make_img requires two arguments"
+    if [ $# -lt 1 ]; then
+	echo "Error: make_img requires one argument"
 	exit 1
     fi
     name=$1
     basename=$(tex_file_basename $1)
-    texstring=$2
 
-    make_tex_file ${basename} ${texstring}
+    cat | make_tex_file ${basename} ${texstring}
     
-    command platex -interaction=nonstopmode ${basename}.tex || exit 1
-    command dvipdfmx ${basename}.dvi
-    command convert -trim +repage ${basename}.pdf ${basename}.png
+    command platex -interaction=nonstopmode ${basename}.tex 1>/dev/null || exit 1
+    command dvipdfmx ${basename}.dvi  2>/dev/null 1>/dev/null
+    command convert -trim +repage ${basename}.pdf ${basename}.png  2>/dev/null 1>/dev/null
     command install ${basename}.png ../images/
     command rm -f ${basename}.*
+    echo "'${name}'" done
+}
+
+function make_simple_img(){
+    if [ $# -lt 2 ]; then
+	echo "Error: make_simple_img requires two arguments"
+	exit 1
+    fi
+    echo $2 | make_img $1
 }
 
 
 # binary operators
-binops=$(echo land lor cap cup cdot pm ast times div)
+binops_relational=$(echo \
+    le leq prec preceq ll subset subseteq sqsubseteq \
+    vdash smile in notin ge geq succ succeq gg supset supseteq \
+    frown sqsupseteq dashv ni equiv sim simeq asymp approx \
+    cong neq doteq propto models perp mid parallel bowtie )
+
+binops_operational=$(echo \
+    pm mp times div ast star circ bullet cdot cap cup uplus sqcap \
+    sqcup vee wedge setminus wr diamond bigtriangleup bigtriangledown \
+    triangleleft triangleright oplus ominus otimes oslash odot bigcirc amalg )
+
+binops_amsmath=$(echo \
+    backsim backsimeq approxeq eqsim because between blacktriangleleft \
+    circeq eqcirc blacktriangleright bumpeq Bumpeq curlyeqprec curlyeqsucc \
+    preccurlyeq eqslantless eqslantgtr succcurlyeq leqq geqq gtrsim \
+    shortmid leqslant geqslant gtreqless gtreqqless gtrapprox lesseqgtr \
+    lesseqqgtr lessgtr lll llless ggg gggtr gtrless lesssim \
+    lessapprox multimap precsim succsim pitchfork doteqdot fallingdotseq \
+    risingdotseq shortparallel smallsmile smallfrown Subset Supset \
+    thicksim subseteqq supseteqq backepsilon vartriangleleft succapprox \
+    thickapprox vartriangleright precapprox triangleq trianglelefteq \
+    trianglerighteq vartriangle Vdash Vvdash vDash varpropto )
+
+binops=$(echo ${binops_relational} ${binops_operational} ${binops_amsmath})
 
 for binop in ${binops}; do
-    make_img ${binop} "$\\${binop}$"
+    make_simple_img ${binop} "$\\${binop}$"
 done
 
