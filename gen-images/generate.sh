@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gendir=$(dirname $0)
+gendir=$(cd $(dirname $0); pwd)
 
 function tex_file_basename(){
     echo "$1"
@@ -26,13 +26,13 @@ function make_img(){
     (cd ${gendir}
 	cat | make_tex_file ${basename} ${texstring}
 	
-	(command platex -interaction=nonstopmode ${basename}.tex 1>/dev/null || (rmdir lock; exit 1)) || exit 1
-	(command dvipdfmx ${basename}.dvi  2>/dev/null 1>/dev/null || (rmdir lock; exit 1)) || exit 1
-	(command convert -trim +repage ${basename}.pdf ${basename}.png 2>/dev/null 1>/dev/null || (rmdir lock; exit 1)) || exit 1
+	(command platex -interaction=nonstopmode ${basename}.tex 1>/dev/null || (rmdir ${gendir}/lock; exit 1)) || exit 1
+	(command dvipdfmx ${basename}.dvi  2>/dev/null 1>/dev/null || (rmdir ${gendir}/lock; exit 1)) || exit 1
+	(command convert -trim +repage ${basename}.pdf ${basename}.png 2>/dev/null 1>/dev/null || (rmdir ${gendir}/lock; exit 1)) || exit 1
 	) || exit 1
-    (command install ${gendir}/${basename}.png ${dstname} || (rmdir lock; exit 1)) || exit 1
+    (command install ${gendir}/${basename}.png ${dstname} || (rmdir ${gendir}/lock; exit 1)) || exit 1
     (cd ${gendir}
-	#command rm -f ${basename}.*
+	command rm -f ${basename}.*
 	)
     echo "'${name}'" done
 
@@ -84,4 +84,3 @@ elif [ $# -eq 2 ]; then
     make_simple_img "$1" "$2" || exit 1
 fi
 
-echo $gendir
