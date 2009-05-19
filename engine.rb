@@ -64,6 +64,8 @@ class Query
   def initialize(query)
     if query == nil || query.empty?
       @alwaystrue = true
+      @queries = []
+      return
     else
       @alwaystrue = false
     end
@@ -82,8 +84,12 @@ class SearchAction < ResponseAction
   def publish(params)
     @query = Query.new(params['query'] && params['query'][0])
     @subquery = Query.new(params['subquery'] && params['subquery'][0])
-    sleep 1
-    self.entry_files.map{|e| self.filter_entry(e)}.select{|d| d}.join("\n")
+    @limit = 100
+    @limit = params['limit'][0].to_i if params['limit']
+
+    self.entry_files.first(@limit).map{|e|
+      self.filter_entry(e)
+    }.select{|d| d}.join("\n")
   end
 
   # return HTML response or nil

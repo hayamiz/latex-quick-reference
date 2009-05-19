@@ -26,7 +26,7 @@ function do_search(){
 
     switch_loading(true);
     $('#entries').load("./engine.rb",
-                       {"mode": "search", "query": query, "subquery": subquery},
+                       {"mode": "search", "query": query, "subquery": subquery, limit: "100"},
                        function(){
                            switch_loading(false);
                        });
