@@ -62,7 +62,13 @@ binops_amsmath=$(echo \
 
 binops=$(echo ${binops_relational} ${binops_operational} ${binops_amsmath})
 
-for binop in ${binops}; do
-    make_simple_img ${binop} "$\\${binop}$"
-done
+if [ $# -eq 0 ]; then
+    for binop in ${binops}; do
+	make_simple_img ${binop} "$\\${binop}$"
+    done
+elif [ $# -eq 1 ]; then
+    cat | make_img "$1"
+elif [ $# -eq 2 ]; then
+    make_simple_img "$1" "$2"
+fi
 

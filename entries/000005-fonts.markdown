@@ -1,0 +1,21 @@
+
+### 文章内の書体
+
+keywords: font-family
+
+- ![Roman](images/font-roman.png): <code>\textrm{Roman}</code>
+- ![Roman](images/font-roman.png): <code>{\rm Roman}</code>
+- ![SansSerif](images/font-sansserif.png): <code>\textsf{SansSerif}</code>
+- ![SansSerif](images/font-sansserif.png): <code>{\sf SansSerif}</code> 
+- ![TypeWriter](images/font-typewriter.png): <code>\texttt{Typewriter}</code>
+- ![TypeWriter](images/font-typewriter.png): <code>{\tt Typewriter}</code>
+- ![Midium](images/font-midium.png): <code>\textmd{Midium}</code>
+- ![Midium](images/font-midium.png): <code>{\mdseries Midium}	</code>
+- ![Bold](images/font-bold.png): <code>\textbf{Bold}</code>
+- ![Bold](images/font-bold.png): <code>{\bf Bold}</code>
+- ![Italic](images/font-italic.png): <code>\textit{Italic}</code>
+- ![Italic](images/font-italic.png): <code>{\it Italic}</code>
+- ![Slanted](images/font-slanted.png): <code>\textsl{Slanted}</code>
+- ![Slanted](images/font-slanted.png): <code>{\sl Slanted}</code>
+- ![SmallCaps](images/font-smallcaps.png): <code>\textsc{SmallCaps}</code>
+- ![SmallCaps](images/font-smallcaps.png): <code>{\sc SmallCaps}</code>
