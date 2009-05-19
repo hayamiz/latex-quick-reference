@@ -114,15 +114,30 @@ class SearchAction < ResponseAction
   end
 
   def get_doc(entry_file)
-    case File.extname(entry_file)
-    when /html?/
-      Nokogiri::HTML(open(entry_file), nil, "UTF-8")
-    when /markdown/
-      html = BlueCloth.new(open(entry_file).read).to_html
-      Nokogiri.make("<div class=\"entry\">#{html}</div>")
+    doc =
+      case File.extname(entry_file)
+      when /html?/
+        Nokogiri::HTML.fragment(open(entry_file).read)
+      when /markdown/
+        html = BlueCloth.new(open(entry_file).read).to_html
+        Nokogiri::HTML.fragment(html)
+      else
+        nil
+      end
+    return nil unless doc
+
+    if doc.children.length > 1
+      html = doc.children.map(&:to_html).join("\n")
+      doc = Nokogiri::HTML.fragment("<div class=\"entry\">#{html}</div>")
     else
-      nil
+      root = doc.children.first
+      if root.name != "div" ||
+          !root.attributes["class"] ||
+          !root.attributes["class"].to_s.include?("entry")
+        doc = Nokogiri::HTML.fragment("<div class=\"entry\">#{root.to_html}</div>")
+      end
     end
+    doc = doc.children.first
   end
 end
 
