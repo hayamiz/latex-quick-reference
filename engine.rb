@@ -127,7 +127,7 @@ class SearchAction < ResponseAction
     return nil unless doc
 
     if doc.children.length > 1
-      html = doc.children.map(&:to_html).join("\n")
+      html = doc.children.map{|c| c.to_html}.join("\n")
       doc = Nokogiri::HTML.fragment("<div class=\"entry\">#{html}</div>")
     else
       root = doc.children.first
