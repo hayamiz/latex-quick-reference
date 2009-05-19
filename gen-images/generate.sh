@@ -21,7 +21,7 @@ function make_img(){
     
     command platex -interaction=nonstopmode ${basename}.tex 1>/dev/null || exit 1
     command dvipdfmx ${basename}.dvi  2>/dev/null 1>/dev/null
-    command convert -trim +repage ${basename}.pdf ${basename}.png  2>/dev/null 1>/dev/null
+    command convert -trim +repage ${basename}.pdf ${basename}.png 2>/dev/null 1>/dev/null
     command install ${basename}.png ../images/
     command rm -f ${basename}.*
     echo "'${name}'" done
