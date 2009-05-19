@@ -98,7 +98,7 @@ class SearchAction < ResponseAction
     return nil unless doc
     
     return nil unless @query.match(doc.content)
-    doc.search("div.subentries > div.subentry").each do |subentry|
+    doc.search("div.subentries > .subentry").each do |subentry|
       subentry.remove() unless @subquery.match(subentry.content)
     end
     doc.search("li").each do |subentry|
