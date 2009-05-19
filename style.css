@@ -53,7 +53,7 @@ div.entry h5 {
 }
 
 div.entry pre, div.entry code {
-    font-family: "Courier New", monospace;
+    font-family: monospace;
 }
 
 div.entry table.symbols {
