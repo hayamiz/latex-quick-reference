@@ -1,5 +1,7 @@
 #!/bin/bash
 
+gendir=$(dirname $0)
+
 function tex_file_basename(){
     echo "$1"
 }
@@ -10,21 +12,31 @@ function make_tex_file(){
 }
 
 function make_img(){
+    while ! mkdir ${gendir}/lock 2>/dev/null 1>/dev/null; do
+	echo > /dev/null
+    done
+    
     if [ $# -lt 1 ]; then
 	echo "Error: make_img requires one argument"
 	exit 1
     fi
-    name=$1
-    basename=$(tex_file_basename $1)
-
-    cat | make_tex_file ${basename} ${texstring}
-    
-    command platex -interaction=nonstopmode ${basename}.tex 1>/dev/null || exit 1
-    command dvipdfmx ${basename}.dvi  2>/dev/null 1>/dev/null
-    command convert -trim +repage ${basename}.pdf ${basename}.png 2>/dev/null 1>/dev/null
-    command install ${basename}.png ../images/
-    command rm -f ${basename}.*
+    dstname=$1
+    name=$(basename ${dstname})
+    basename=$(tex_file_basename ${name})
+    (cd ${gendir}
+	cat | make_tex_file ${basename} ${texstring}
+	
+	(command platex -interaction=nonstopmode ${basename}.tex 1>/dev/null || (rmdir lock; exit 1)) || exit 1
+	(command dvipdfmx ${basename}.dvi  2>/dev/null 1>/dev/null || (rmdir lock; exit 1)) || exit 1
+	(command convert -trim +repage ${basename}.pdf ${basename}.png 2>/dev/null 1>/dev/null || (rmdir lock; exit 1)) || exit 1
+	) || exit 1
+    (command install ${gendir}/${basename}.png ${dstname} || (rmdir lock; exit 1)) || exit 1
+    (cd ${gendir}
+	#command rm -f ${basename}.*
+	)
     echo "'${name}'" done
+
+    rmdir ${gendir}/lock
 }
 
 function make_simple_img(){
@@ -64,11 +76,12 @@ binops=$(echo ${binops_relational} ${binops_operational} ${binops_amsmath})
 
 if [ $# -eq 0 ]; then
     for binop in ${binops}; do
-	make_simple_img ${binop} "$\\${binop}$"
+	make_simple_img ${gendir}/../images/${binop}.png "$\\${binop}$"
     done
 elif [ $# -eq 1 ]; then
-    cat | make_img "$1"
+    (cat | make_img "$1") || exit 1
 elif [ $# -eq 2 ]; then
-    make_simple_img "$1" "$2"
+    make_simple_img "$1" "$2" || exit 1
 fi
 
+echo $gendir
