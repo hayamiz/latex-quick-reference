@@ -29,3 +29,24 @@ input#latex-query, input#latex-subquery {
 div#entries {
     padding: 2em;
 }
+
+div.entry {
+    border: 5px solid lightblue;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+div.entry h3 {
+    border-bottom: 0.5em solid lightblue;
+    padding-left: 0.5em;
+}
+
+div.entry h4 {
+    border-bottom: 0.4em solid lightblue;
+    padding-left: 0.5em;
+}
+
+div.entry h5 {
+    border-bottom: 0.3em solid lightblue;
+    padding-left: 0.5em;
+}
