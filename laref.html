@@ -12,18 +12,21 @@
   <body onload="javascript:$('input#latex-query')[0].focus()">
     <div id="wrapper">
       <div align="center"><img src="./logo.png" alt="LaTeX Quick Reference"></div>
-	<div align="center" id="userInput">
-	  <span id="loading" style="display: none"><img src="./loading.gif" /></span>
-	  Query: <input name="latex-query" id="latex-query" value="" /> / 
-	  Sub-query: <input name="latex-subquery" id="latex-subquery" value="" />
-	  <script type="text/javascript">
-	    watchChange($('#latex-query')[0], 800, do_search);
-	    watchChange($('#latex-subquery')[0], 800, do_search);
-	  </script>
-	</div>
-	<hr />
-	<div id="entries">
-	</div>
+      <div align="center" id="userInput">
+	<span id="loading" style="display: none"><img src="./loading.gif" /></span>
+	Query: <input name="latex-query" id="latex-query" value="" /> / 
+	Sub-query: <input name="latex-subquery" id="latex-subquery" value="" />
+	<script type="text/javascript">
+	  watchChange($('#latex-query')[0], 800, do_search);
+	  watchChange($('#latex-subquery')[0], 800, do_search);
+	</script>
       </div>
+      <hr />
+      <div id="entries">
+      </div>
+    </div>
+    <script type="text/javascript">
+      do_search();
+    </script>
   </body>
 </html>
