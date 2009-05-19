@@ -2,7 +2,7 @@
 (defun insert-symbols (syms)
   (next-line)
   (dolist (sym syms)
-    (insert (format "<div class=\"subentry\">\n<img src=\"./images/%s.png\" /> - <code>\\%s</code>\n</div>\n" sym sym))))
+      (insert (format "<div class=\"subentry\">\n<img src=\"./images/%s.png\" /> - <code>\\%s</code>\n</div>\n" sym sym))))
 
 (insert-symbols '(le leq prec preceq ll subset subseteq sqsubseteq
 		     vdash smile in notin ge geq succ succeq gg supset supseteq
