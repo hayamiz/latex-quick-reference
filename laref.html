@@ -13,9 +13,10 @@
     <div id="wrapper">
       <div align="center"><img src="./logo.png" alt="LaTeX Quick Reference"></div>
       <div align="center" id="userInput">
+	Query: <input name="latex-query" id="latex-query" value="" />
 	<span id="loading" style="display: none"><img src="./loading.gif" /></span>
-	Query: <input name="latex-query" id="latex-query" value="" /> / 
-	Sub-query: <input name="latex-subquery" id="latex-subquery" value="" />
+	<br />Sub-query:
+	<input name="latex-subquery" id="latex-subquery" value="" />
 	<script type="text/javascript">
 	  watchChange($('#latex-query')[0], 800, do_search);
 	  watchChange($('#latex-subquery')[0], 800, do_search);
@@ -27,6 +28,10 @@
 	  <h3>
 	    LaTeX Quick Reference
 	  </h3>
+	  
+	  <ul>
+	    <li>Incremental reference search for LaTeX</li>
+	  </ul>
 	</div>
       </div>
     </div>

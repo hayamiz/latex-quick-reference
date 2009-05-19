@@ -3,6 +3,7 @@ body {
     background-color: #110472;
     background-image: url("./bg-dotted.png");
     background-repeat: repeat-x;
+    font-family: "Verdana", "Arial", sans-serif;
 }
 
 div#wrapper {
@@ -23,7 +24,7 @@ input#latex-query, input#latex-subquery {
     border-left-color: white;
     padding: 0.2em;
     font-size: 1.2em;
-    width: 30%;
+    width: 50%;
 }
 
 div#entries {
@@ -49,4 +50,8 @@ div.entry h4 {
 div.entry h5 {
     border-bottom: 0.3em solid lightblue;
     padding-left: 0.5em;
+}
+
+div.entry pre, div.entry code {
+    font-family: "Courier New", monospace;
 }
