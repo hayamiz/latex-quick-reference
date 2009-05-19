@@ -68,13 +68,13 @@ class Query
       @alwaystrue = false
     end
 
-    @query = query
+    @queries = query.split.map{|q| Regexp.compile(q, Regexp::IGNORECASE)}
   end
 
   def match(text)
     return true if @alwaystrue
 
-    text.include?(@query)
+    @queries.inject(true){|ret, q| ret && (q =~ text)}
   end
 end
 
