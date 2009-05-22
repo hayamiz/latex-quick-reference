@@ -12,5 +12,5 @@ gauche: $(GAUCHE_VERSION).tgz
 	cd gauche; ./configure; make
 
 $(GAUCHE_VERSION).tgz:
-	wget "http://hayamin.com/files/$(GAUCHE_VERSION).tgz"
+	wget "http://unicus.ddo.jp/haya/$(GAUCHE_VERSION).tgz"
 
