@@ -1,7 +1,7 @@
 
 GAUCHE_VERSION := Gauche-0.8.14
 
-.PHONY: clean gauche
+.PHONY: clean
 
 clean:
 	rm -f $(GAUCHE_VERSION).tgz
@@ -9,7 +9,7 @@ clean:
 gauche: $(GAUCHE_VERSION).tgz
 	tar zxvf $(GAUCHE_VERSION).tgz
 	mv $(GAUCHE_VERSION) gauche
-	cd gauche; ./configure; make
+	cd gauche; ./configure --prefix=$$(pwd); make -j4; make install
 
 $(GAUCHE_VERSION).tgz:
 	wget "http://unicus.ddo.jp/haya/$(GAUCHE_VERSION).tgz"
