@@ -131,7 +131,7 @@ class SearchAction < ResponseAction
         html = BlueCloth.new(open(entry_file).read).to_html
         Nokogiri::HTML.fragment(html)
       when /scm/ # smarks
-        html = `#{$LQR_ROOT}/gauche/src/gosh #{$LQR_ROOT}/lib/smarks.scm #{entry_file}`
+        html = `#{$LQR_ROOT}/gauche/bin/gosh #{$LQR_ROOT}/lib/smarks.scm #{entry_file}`
         Nokogiri::HTML.fragment(html)
       else
         nil
